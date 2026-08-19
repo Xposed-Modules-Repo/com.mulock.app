@@ -34,14 +34,14 @@
 4. 重启手机，再打开管理器完成首次规则同步。
 5. 根据需要设置桌面隐藏、通知伪装、应用锁和底部手势。
 
-## 当前版本：1.42.0
+## 当前版本：1.48.0
 
-- 修复通知伪装最终状态诊断可能把其他应用通知误判为目标应用故障的问题。
-- SystemUI 现在只检测真正开启通知伪装的 `UserId + 包名`，普通通知不再进入最终校验链路。
-- 诊断汇总强制校验系统接收、SystemUI 接收和最终结果属于同一用户、同一应用。
-- 增加阶段时间顺序校验，历史通知或错序记录不能再触发当前应用误报。
-- 最终状态只对每个通知对象记录一次，避免 SystemUI 反复读取通知时产生大量重复诊断事件。
-- 加入针对其他应用、同包不同用户、历史通知错位和真实失败的自动回归测试。
+- 隐藏图标设置新增独立的系统管理页面、流量/电量管理、分享/打开方式以及其他应用查询隐藏开关，四项可独立使用。
+- 隐藏链路以 AOSP PermissionController、PackageManager/Computer、AppOps、ChooserActivity、ShortcutService 和 PeopleService 为基线，覆盖 Android 8–16 常见接口。
+- 按 `UserId + 包名` 过滤，同包的主空间、工作资料和分身应用不互相影响。
+- 修复包查询 Hook 中跨系统服务调用可能引起的 system_server 死锁；调用者识别改为无 Binder 交叉依赖的安全方式，识别不出时放行。
+- 隐藏链路按安装列表、应用详情、AppOps、UID 映射、Intent 解析、Direct Share 与分享预测分开诊断。
+- 35 项自动测试全部通过，安装重启后超过原故障触发时间持续检查，PackageManager、ActivityManager 与 system_server 保持正常。
 
 ## 运行与兼容性
 
@@ -58,9 +58,9 @@
 
 ## 下载校验
 
-- 文件：`MultiUserAppLock-v1.42-release-protected.apk`
-- versionCode：142
-- APK SHA-256：`A433F33B30EB8DD9AAA9BFD1795807D1BF3F18231D30EA9F84C71B149F375B1B`
+- 文件：`MultiUserAppLock-v1.48-release-protected.apk`
+- versionCode：148
+- APK SHA-256：`B9D7F61AC4FF4A6CD8D31CE3A0D6063D1A30CB253BB98CAFF92D1D39F420ACF8`
 - 正式签名证书 SHA-256：`2CA48830CCF86AFA0348098BA632858FAF445E61407C9A6AA46CB5ECDB91B27A`
 
 本仓库只公开加固后的正式 APK、软件介绍和更新记录，源代码、签名文件与后台配置保持私有。
